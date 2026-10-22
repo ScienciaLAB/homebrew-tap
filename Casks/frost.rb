@@ -1,6 +1,6 @@
 cask "frost" do
-  version "0.2.0"
-  sha256 "151f0ad6a2990ef79bbe5c3b838ba17cf8d8bf8fcf855c277d3dc955240043e4"
+  version "0.2.1"
+  sha256 "70d4abb231b60226c6a906e8ad0c65307c401f733cc01cd390581d5d64d7676f"
 
   url "https://github.com/ScienciaLAB/Frost/releases/download/v#{version}/Frost.zip"
   name "Frost"
