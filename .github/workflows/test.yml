@@ -18,6 +18,8 @@ jobs:
           mkdir -p "$(dirname "$tap")"
           rm -rf "$tap"
           ln -s "$GITHUB_WORKSPACE" "$tap"
+          # Homebrew ignores non-official taps until they're trusted.
+          brew trust sciencialab/tap
       - name: Style
         run: brew style sciencialab/tap
       - name: Audit
