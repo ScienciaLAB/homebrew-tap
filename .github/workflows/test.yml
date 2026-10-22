@@ -10,6 +10,9 @@ jobs:
     env:
       HOMEBREW_NO_AUTO_UPDATE: 1
       HOMEBREW_NO_INSTALL_FROM_API: 1
+      # brew audit --online calls the GitHub API; unauthenticated calls from
+      # shared runners quickly hit the rate limit.
+      HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v5
       - name: Tap this checkout
