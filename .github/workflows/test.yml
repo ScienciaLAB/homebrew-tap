@@ -1,0 +1,34 @@
+name: Test casks
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: macos-26
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: 1
+      HOMEBREW_NO_INSTALL_FROM_API: 1
+    steps:
+      - uses: actions/checkout@v5
+      - name: Tap this checkout
+        run: |
+          tap="$(brew --repository)/Library/Taps/sciencialab/homebrew-tap"
+          mkdir -p "$(dirname "$tap")"
+          rm -rf "$tap"
+          ln -s "$GITHUB_WORKSPACE" "$tap"
+      - name: Style
+        run: brew style sciencialab/tap
+      - name: Audit
+        run: |
+          for cask in Casks/*.rb; do
+            brew audit --cask --online "sciencialab/tap/$(basename "$cask" .rb)"
+          done
+      - name: Install and uninstall
+        run: |
+          for cask in Casks/*.rb; do
+            name="sciencialab/tap/$(basename "$cask" .rb)"
+            brew install --cask "$name"
+            brew uninstall --cask --zap "$name"
+          done
